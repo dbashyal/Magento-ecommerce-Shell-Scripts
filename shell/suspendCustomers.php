@@ -34,35 +34,40 @@ class Mage_Shell_suspendCustomers extends Mage_Shell_Abstract
         $fileName = 'suspended-' . time() . '.txt';
         Mage::log('Customers Suspended on ' . date('Y-m-d H:i:s', time()), null, $fileName);
 
-        // load customers who logged in more than 10 months ago
-        // also, updated account more than 10 months ago, as we may
+        // load customers who hasn't logged in for more than 10 months
+        // or, created account more than 10 months ago but never logged in
         // have recently updated their account but hasn't got chance to login yet
-        $collection = Mage::getModel('customer/customer')->getCollection();
-        $collection->getSelect()->joinRight(array('l'=>'log_customer'), "customer_id=entity_id AND l.login_at >= '" . date('Y-m-d H:i:s', strtotime('10 months ago')) . "'")->group('e.entity_id');
-        $collection->addAttributeToSelect('*');
-        $collection->addFieldToFilter('updated_at', array(
-            'gt' => date('Y-m-d H:i:s', strtotime('10 months ago')),
-            'datetime'=>true,
-        ));
-        $collection->addAttributeToFilter('group_id', array(
-            'neq' => 5,
-        ));
-        /*
-        // also, we only want to disable users with some email domains e.g. hotmail etc
-        $collection->addAttributeToFilter('email', array(
-            'like' => '%@fake-email.com%',
-        ));
-        */
+        $read = Mage::getSingleton('core/resource')->getConnection('core_read');
+        $sql = "select * from (
+                    select e.*,l.login_at
+                        from customer_entity as e
+                        left join log_customer as l
+                        on l.customer_id=e.entity_id
+                        group by e.entity_id
+                        order by l.login_at desc
+                ) as l
+                where (
+                    l.login_at <= '".date('Y-m-d H:i:s', strtotime('10 months ago'))."'
+                    or (
+                        l.created_at <= '".date('Y-m-d H:i:s', strtotime('10 months ago'))."'
+                        and
+                        l.login_at is NULL
+                        )
+                    )
+                and
+                group_id != 5";
+        $result = $read->fetchAll($sql);
 
-        // print out the query to see if it's generating right sql statement.
-        //echo $collection->printLogQuery(true);die();
+        // print the query to see if it's generating right sql statement.
+        //Mage::log(print_r($sql, true));die();
 
         // total users suspended
         $total = 0;
 
-        // lets iterate through customers who haven't logged-in in last 10 months
+        // lets iterate through the result
         // and change their user group to group_id '5' which is for suspended users.
-        foreach($collection as $v){
+        foreach($result as $v){
+            $v = Mage::getModel('customer/customer')->load($v['entity_id']);
             $v->setData('group_id', 5);
             $v->save();
             $total++;
