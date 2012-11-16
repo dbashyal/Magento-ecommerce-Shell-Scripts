@@ -95,4 +95,4 @@ class Mage_Shell_suspendCustomers extends Mage_Shell_Abstract
 }
 
 $shell = new Mage_Shell_suspendCustomers();
-$shell->run(); /*removed until fix is found*/
+$shell->run();
