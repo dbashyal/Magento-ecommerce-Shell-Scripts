@@ -38,7 +38,7 @@ class Mage_Shell_suspendCustomers extends Mage_Shell_Abstract
         // or, created account more than 10 months ago but never logged in
         // have recently updated their account but hasn't got chance to login yet
         $read = Mage::getSingleton('core/resource')->getConnection('core_read');
-        $sql = "select * from (
+        /*$sql = "select * from (
                     select e.*,l.login_at
                         from customer_entity as e
                         left join log_customer as l
@@ -55,7 +55,15 @@ class Mage_Shell_suspendCustomers extends Mage_Shell_Abstract
                         )
                     )
                 and
-                group_id != 5";
+                group_id != 5";*/
+        $sql = "SELECT e.*,MAX(l.login_at) as login_at
+        FROM `customer_entity` e
+        LEFT JOIN `log_customer` l on e.entity_id=l.customer_id
+        GROUP BY l.customer_id
+        HAVING created_at < '".date('Y-m-d H:i:s', strtotime('10 months ago'))."'
+        and (login_at< '".date('Y-m-d H:i:s', strtotime('10 months ago'))."' or login_at is null)
+        and group_id != 5
+        ORDER BY `e`.`entity_id` ASC";
         $result = $read->fetchAll($sql);
 
         // print the query to see if it's generating right sql statement.
@@ -87,4 +95,4 @@ class Mage_Shell_suspendCustomers extends Mage_Shell_Abstract
 }
 
 $shell = new Mage_Shell_suspendCustomers();
-$shell->run();
+$shell->run(); /*removed until fix is found*/
