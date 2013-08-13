@@ -17,6 +17,9 @@
 # look for last Mod time  -mtime n = n*24hrs -mmin n = n minutes ago
 # +n greater than n;  n for exactly n;  -n less than n
 
+# contab -e
+# 0 0 * * * /home/user/public_html/current/trunk/scripts/magento_cleanup.sh > /home/user/public_html/cron_cleanup.txt
+
 VARPATH='../var'
 MEDIAPATH='../media'
 
