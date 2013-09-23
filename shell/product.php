@@ -41,6 +41,7 @@ class Mage_Shell_fixproduct extends Mage_Shell_Abstract
         if(count($_products)){
             $collection = Mage::getModel('catalog/product')->getCollection();
             $collection->addAttributeToSelect('url_path');
+            $collection->addAttributeToSelect('url_key');
             $collection->addAttributeToFilter(array(
                 array(
                     'attribute' => 'entity_id',
