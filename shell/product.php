@@ -47,8 +47,17 @@ class Mage_Shell_fixproduct extends Mage_Shell_Abstract
                     'in'        => $_products,
                     )
             ));
+            $collection->addAttributeToFilter(array(
+                array(
+                    'attribute' => 'sku',
+                    'in'        => array('SSGS12177NBN-FS'),
+                    )
+            ));
 
             foreach($collection as $_product){
+                $storeIds = $_product->getStoreIds();
+                //$storeIds = array_pop($storeIds);
+
                 $urlKey = $_product->getUrlKey();
                 $urlPath = $_product->getUrlPath();
                 if(substr($urlPath, -5) == '.html'){
@@ -56,16 +65,19 @@ class Mage_Shell_fixproduct extends Mage_Shell_Abstract
                     $id = substr($urlPath, (strrpos($urlPath, '-', 0)+1));
                     if($id == $_product->getId()){
                         $urlPath = substr($urlPath, 0, (strrpos($urlPath, '-', 0)));
+                        $urlPath = substr($urlPath, 0, (strrpos($urlPath, '-', 0)));
                     }
                 }
                 if(empty($urlKey)){
                     $urlKey = $urlPath;
                 }
-                $urlPath = $urlPath . '-' . $_product->getId() . '.html';
-                $_product->setUrlPath($urlPath);
                 $_product->setUrlKey($urlKey);
-                $_product->save();
-                echo ($i++) . '> ' . $urlPath . " - SAVED!!! \n";
+                foreach($storeIds as $storeId){
+                    $urlPath = $urlPath . '-' . $storeId . '-' . $_product->getId() . '.html';
+                    $_product->setUrlPath($urlPath);
+                    $_product->save();
+                    echo ($i++) . '> ' . $urlPath . " - SAVED!!! \n";
+                }
             }
         }
     }
