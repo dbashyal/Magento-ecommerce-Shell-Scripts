@@ -10,6 +10,9 @@ create product attributes, create attribute set group to all attribute sets and 
 
 ##changestatus.php
 
+##fixSpecialDate.php
+this script finds special dates with default 1970 and unsets dates, so special date is valid forever. You can modify for your requirement.
+
 ##inventory.php
 
 ##magento_cleanup.sh
