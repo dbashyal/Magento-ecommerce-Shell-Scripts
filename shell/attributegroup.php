@@ -2,6 +2,7 @@
 /*
  * file: /shell/attributegroup.php
  * code compiled by: @dbashyal 'damu'
+ * href: http://dltr.org/ 'magento tips and tricks'
  * ref: Mage_Adminhtml_Catalog_Product_AttributeController::saveAction
  */
 //enable errors to see if something is wrong
