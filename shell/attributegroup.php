@@ -19,22 +19,31 @@ Mage::setIsDeveloperMode(true);
 //instantiate the application
 Mage::app();
 
-$newAttributes = array('Drivers','Firmware','Manuals','Quick Install Guide','Screen Captures','Setup Guides','SNMP','Software','Warranty');
-$groupName = 'Downloads';
+$newAttributes      = array();
+$newAttributes[]    = array(
+                          'attribute_code'  => 'product_right_block_title',
+                          'frontend_label'  => 'Product Right Block Title',
+                          'backend_type'    => 'int', //datetime,decimal,int,text,varchar,static
+                          'frontend_input'  => 'select', //text,textarea,date,boolean,multiselect,select,price,media_image,weee
+                        );
+$newAttributes[]    = array(
+                          'attribute_code'  => 'product_right_block_content',
+                          'frontend_label'  => 'Product Right Block Content',
+                          'backend_type'    => 'text', //datetime,decimal,int,text,varchar,static
+                          'frontend_input'  => 'textarea', //text,textarea,date,boolean,multiselect,select,price,media_image,weee
+                        );
+
+$groupName = 'Product Right Block';
 
 $attr = new Mage_Custom_Attribute();
 $attr->setGroupName($groupName);
 
 foreach($newAttributes as $a){
-    $attr->setFrontendLabel($a);
-
-    $code = strtolower(preg_replace('/[^a-z0-9_]/i', '', $a) . '_' . preg_replace('/[^a-z0-9_]/i', '', $groupName));
-    $attr->setAttributeCode($code);
-
-    $attr->run();
+    $attr->reset()->setData($a)->run();
 }
 
 class Mage_Custom_Attribute {
+    protected $_data = array();
     protected $_entityTypeId;
     protected $_group_name      = 'Downloads';
     protected $_frontend_label  = 'Drivers';
@@ -42,6 +51,45 @@ class Mage_Custom_Attribute {
     protected $_attributeCodes  = array();
     protected $_attributeSets   = array();
     protected $_attributeGroups = array();
+
+    /**
+     * @return Mage_Custom_Attribute
+     */
+    public function reset(){
+        $this->_data = array();
+        return $this;
+    }
+
+    /**
+     * @param string|array $key
+     * @param string $val
+     * @return Mage_Custom_Attribute
+     */
+    public function setData($key='key', $val='')
+    {
+        if(is_array($key)){
+            foreach($key as $k => $v){
+                $this->setData($k, $v);
+            }
+        } else {
+            $this->_data[$key] = $val;
+        }
+        return $this;
+    }
+
+    /**
+     * @param string|bool $key
+     * @return array|string
+     */
+    public function getData($key = false){
+        if($key){
+            if(isset($this->_data[$key])){
+                return $this->_data[$key];
+            }
+            return '';
+        }
+        return $this->_data;
+    }
 
     /**
      * @param string $GroupName
@@ -180,15 +228,15 @@ class Mage_Custom_Attribute {
 
     function createAttribute($data = array()){
         $frontend_label = $this->getFrontendLabel();
-        $attribute_code = $this->getAttributeCode();
+        $attribute_code = $this->getData('attribute_code');
         if(isset($this->_attributeCodes[$attribute_code])){
             return;
         }
 
         $data_default = array(
-            'is_global'                     => '1', /*0=storeview,1=global,2=website*/
+            'is_global'                     => '2', /*0=storeview,1=global,2=website*/
             'attribute_code'                => $attribute_code,
-            'frontend_input'                => 'text',
+            'frontend_input'                => $this->getData('frontend_input'),
             'default_value'                 => '',
             'default_value_text'            => '',
             'default_value_yesno'           => '0',
@@ -197,7 +245,7 @@ class Mage_Custom_Attribute {
             'is_unique'                     => '0',
             'is_required'                   => '0',
             'frontend_class'                => '',
-            'is_searchable'                 => '1',
+            'is_searchable'                 => '0',
             'is_visible_in_advanced_search' => '0',
             'is_comparable'                 => '0',
             'is_used_for_promo_rules'       => '0',
@@ -208,12 +256,12 @@ class Mage_Custom_Attribute {
             'is_configurable'               => '0',
             'is_filterable'                 => '0',
             'is_filterable_in_search'       => '0',
-            'backend_type'                  => 'varchar',
+            'backend_type'                  => $this->getData('backend_type'),
         );
 
         $data = array_merge($data_default, $data);
 
-        $data['frontend_label'] = array('0' => $frontend_label);
+        $data['frontend_label'] = array('0' => $this->getData('frontend_label'));
 
         /* @var $model Mage_Catalog_Model_Entity_Attribute */
         $model = Mage::getModel('catalog/resource_eav_attribute');
@@ -288,7 +336,7 @@ class Mage_Custom_Attribute {
     }
 
     public function assignAttributeToSets(){
-        $attr = $this->_attributeCodes[$this->getAttributeCode()];
+        $attr = $this->_attributeCodes[$this->getData('attribute_code')];
         foreach ($this->getAttributeSets() as $set){
             $setId = $set->getId();
             //$set = Mage::getModel('eav/entity_attribute_set')->load($set->getId());
@@ -301,7 +349,7 @@ class Mage_Custom_Attribute {
                       //->setSortOrder(10) // Sort Order for the attribute in the tab form edit
                       ->save()
             ;
-            echo "Attribute ".$this->getAttributeCode()." Added to Attribute Set ".$set->getAttributeSetName()." in Attribute Group ".$this->_attributeGroups[$setId]['attribute_group_name']."<br>\n";
+            echo "Attribute ".$this->getData('attribute_code')." Added to Attribute Set ".$set->getAttributeSetName()." in Attribute Group ".$this->_attributeGroups[$setId]['attribute_group_name']."<br>\n";
         }
     }
 }
