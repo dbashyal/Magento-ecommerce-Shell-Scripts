@@ -15,11 +15,12 @@ class Mage_Shell_Update_Attributes extends Mage_Shell_Abstract
         $collection = Mage::getModel('catalog/product')->getCollection();
         $collection->addAttributeToSelect('rw_google_base_skip_submi');
         $collection->addAttributeToFilter('status', array('eq' => '1'));
-        //$collection->addAttributeToFilter('rw_google_base_skip_submi', array('neq' => 1)); // not working as this attribute not associated to all products yet.
+        //$collection->addAttributeToFilter('rw_google_base_skip_submi', array('neq' => 1)); // not working as this attribute not associated to all products.
         $collection->setPage($this->_page, $this->_size);
         $collection = $collection->load();
+        $count = count($collection);
 
-        echo 'Found total ' . count($collection) . ' products in page '.$this->_page.' !!!' . "\n\r\n\r";
+        echo 'Found total ' . $count . ' products in page '.$this->_page.' !!!' . "\n\r\n\r\n\r\n\r\n\r\n\r";
 
         //var_dump($collection->getSelectSql(true));
 
@@ -39,7 +40,8 @@ class Mage_Shell_Update_Attributes extends Mage_Shell_Abstract
 
             echo "!!!\n\r\n\r";
         }
-        return $collection->count();
+
+        return ($this->_page > $collection->getLastPageNumber() ? 0 : $count );
     }
 
     public function getStoreIds(){
@@ -58,6 +60,7 @@ $_count = 0;
 while($count = $shell->run()){
     $shell->_page++;
     $_count += $count;
+    $count = $shell->run();
 }
 
 echo "... {$_count} product's updated!\n\r";
