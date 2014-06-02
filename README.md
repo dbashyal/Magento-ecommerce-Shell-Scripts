@@ -5,6 +5,18 @@ Magento Ecommerce Shell Scripts
 
 Repo for various Magento ecommerce Shell Scripts
 
+Where to upload?
+- {magento-root}/app/shell/
+ 
+How to run?
+Go to shell folder location and run:
+
+`$: php <filename>`
+
+e.g.
+
+`$: php update_attributes.php`
+
 #Magento custom shell scripts:
 
 ##attributegroup.php
