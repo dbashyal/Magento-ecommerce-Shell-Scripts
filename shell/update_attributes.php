@@ -43,6 +43,11 @@ class Mage_Shell_Update_Attributes extends Mage_Shell_Abstract
     private $_stores    = array();
 
     /**
+     * @var array
+     */
+    public $_failed    = array();
+
+    /**
      * @var string
      */
     public $_file;
@@ -114,8 +119,9 @@ class Mage_Shell_Update_Attributes extends Mage_Shell_Abstract
                     continue;
                 }
                 $product = Mage::getModel('catalog/product')->loadByAttribute('sku',$data['sku']);
-                $pid = $product->getId();
+                $pid = is_object($product) ? $product->getId() : 0;
                 if(!$pid){
+                    $this->_failed[] = $data['sku'];
                     echo " - product not found\n\r";
                     continue;
                 }
@@ -189,7 +195,12 @@ if($massUpdateFirst){
 }
 $_count += $shell->updateAttributesWithCSV();
 
-echo "... {$_count} product's updated!\n\r";
+echo "... {$_count} products updated!\n\r";
+
+$failed = $shell->_failed;
+if(count($failed)){
+    echo "product failed to update (".implode(',', $failed).")!\n\r";
+}
 
 /*Now set them back to auto save*/
 $processes = Mage::getSingleton('index/indexer')->getProcessesCollection();
