@@ -109,8 +109,10 @@ class Mage_Shell_Update_Attributes extends Mage_Shell_Abstract
      * @return int
      */
     public function updateAttributesWithCSV(){
+        echo "reading csv:\n\r";
         $rows = $this->readCSV();
         $i = 0;
+        echo "found ".count($rows)." rows:\n\r";
         if(count($rows)){
             foreach($rows as $data){
                 echo "checking sku '{$data['sku']}':\n\r";
@@ -165,12 +167,15 @@ class Mage_Shell_Update_Attributes extends Mage_Shell_Abstract
             while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                 if(!$line++){
                     $columns = $data;
+                    echo "columns (".implode(',', $columns).") found.:\n\r";
                     continue;
                 }
                 $rows[] = array_combine($columns,$data);
             }
             fclose($handle);
             return $rows;
+        } else {
+            echo "file (".$this->_file.") doesn't exists or can't read.:\n\r";
         }
         return array();
     }
