@@ -159,11 +159,14 @@ class Mage_Shell_Update_Attributes extends Mage_Shell_Abstract
      * @return array
      */
     public function readCSV(){
+        // get original setting
+        $original_auto_detect_line_endings = ini_get('auto_detect_line_endings');
+        ini_set('auto_detect_line_endings',TRUE);
         $this->_file = Mage::getConfig()->getOptions()->getVarDir() . DS . 'import' . DS . $this->_filename;
+        $rows = array();
         if(file_exists($this->_file) && ($handle = fopen($this->_file, "r")) !== FALSE){
             $line = 0;
             $columns = array();
-            $rows = array();
             while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                 if(!$line++){
                     $columns = $data;
@@ -173,11 +176,12 @@ class Mage_Shell_Update_Attributes extends Mage_Shell_Abstract
                 $rows[] = array_combine($columns,$data);
             }
             fclose($handle);
-            return $rows;
         } else {
             echo "file (".$this->_file.") doesn't exists or can't read.:\n\r";
         }
-        return array();
+        // revert back to original setting.
+        ini_set('auto_detect_line_endings',$original_auto_detect_line_endings);
+        return $rows;
     }
 }
 
