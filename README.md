@@ -38,6 +38,12 @@ this script finds special dates with default 1970 and unsets dates, so special d
 ##suspendCustomers.php
 Move user to suspended customer group (moves customers to suspended customer group if not logged-in for more than 10 months).
 
+##quote-to-order.php
+Requires attached model to run properly.
+```
+php quote-to-order.php --ids 21433666 --delete-existing 1
+```
+
 ##update_attributes.php
 Update mass attribute values. sample csv (/var/import/google_shopping.csv):
 
