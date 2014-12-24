@@ -2,6 +2,7 @@
 /*
  * @author: Damodar Bashyal (@dbashyal)
  * tested on: Magento Enterprise Edition
+ * Inspiration from: http://magento.stackexchange.com/q/3361/3906 (@philwinkle)
  */
 class Dse_Orderxml_Model_Sales_Service_Quote extends Mage_Sales_Model_Service_Quote
 {
