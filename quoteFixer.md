@@ -7,6 +7,7 @@ If you are seeing sql error "SQLSTATE[22003]: Numeric value out of range: 1690 B
 ```
 php quoteFixer.php
 ```
+\[[download script](shell/quoteFixer.php)\]
 
 [<< Go Back](https://github.com/dbashyal/Magento-ecommerce-Shell-Scripts)
 
