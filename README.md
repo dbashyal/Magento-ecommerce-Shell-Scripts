@@ -13,11 +13,8 @@ Go to shell folder location and run:
 
 `$: php <filename>`
 
-e.g.
-
-`$: php update_attributes.php`
-
 #Magento custom shell scripts:
+1. [Fix issue related to deleting a product](quoteFixer.md)
 
 ##attributegroup.php
 create product attributes, create attribute set group to all attribute sets and assign new attribute to this new group. it works for existing attributes too.
