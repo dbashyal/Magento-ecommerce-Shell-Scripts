@@ -16,6 +16,7 @@ Go to shell folder location and run:
 #Magento custom shell scripts:
 1. [Fix issue related to deleting a product](quoteFixer.md)
 2. [Cleanup log tables](tclean.md)
+3. [Change order status programatically](orderstatus.md)
 
 ##attributegroup.php
 create product attributes, create attribute set group to all attribute sets and assign new attribute to this new group. it works for existing attributes too.
