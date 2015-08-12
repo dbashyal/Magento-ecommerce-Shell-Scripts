@@ -57,7 +57,6 @@ class DSE_Shell_Orderalert extends Mage_Shell_Abstract
             ->addTo($recipient)
             ->setSubject('Old Orders Need Your Attention!');
 
-        // send message only if either error message is not empty or logfile is not false.
         if(!empty($str)){
             if($mail->send()){
                 echo "\nsent\n";
