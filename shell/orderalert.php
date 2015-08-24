@@ -27,15 +27,19 @@ class DSE_Shell_Orderalert extends Mage_Shell_Abstract
         $fromDate = date('Y-m-d H:i:s', strtotime("5 years ago"));
         $toDate = date('Y-m-d H:i:s', strtotime("3 days ago"));
         $collection->addAttributeToFilter('created_at', array('from'=>$fromDate, 'to'=>$toDate));
-        $collection->addAttributeToSort('entity_id', 'asc')->setPageSize(500)->setCurPage(1);
+        $collection->addAttributeToSort('entity_id', 'asc')->setPageSize(2000)->setCurPage(1);
 
         $orders = "<table border='1' cellpadding='2' style='border-collapse: collapse'><tr><th>ID</th><th>Status</th><th>Date</th></tr>";
         $sendEmail = false;
+        $storeOrders = array();
         foreach($collection as $order){
             $sendEmail = true;
-            $orders .= "\n<tr><td>" . $order->getIncrementId() . "</td><td>" . $order->getStatus() . "</td><td>" . $order->getCreatedAt() . "</td></tr>";
+            $storeOrders[$order->getStoreName()][] = "<tr><td>" . $order->getIncrementId() . "</td><td>" . $order->getStatus() . "</td><td>" . $order->getCreatedAt() . "</td></tr>";
         }
-        $orders .= "</table>";
+        foreach($storeOrders as $name => $_store_order){
+            $orders .= "\n<tr><th colspan='3'>" . str_replace("\n", ',', $name) . "</th></tr>\n" . implode("\n", $_store_order);
+        }
+        $orders .= "\n</table>";
 
         if($sendEmail){
             echo "\nsending email\n";
