@@ -22,34 +22,66 @@ class DSE_Shell_Orderstatus extends Mage_Shell_Abstract
         }
         $orders = explode(',', $orders);
         $_orderStatus = $this->getArg('status');
-        switch($_orderStatus){
+        $_orderState = $this->getArg('state');
+        switch($_orderState){
             case 'new':
-                $orderstatus = Mage_Sales_Model_Order::STATE_NEW;
+                $orderstate = Mage_Sales_Model_Order::STATE_NEW;
                 break;
             case 'pending_payment':
-                $orderstatus = Mage_Sales_Model_Order::STATE_PENDING_PAYMENT;
+                $orderstate = Mage_Sales_Model_Order::STATE_PENDING_PAYMENT;
                 break;
             case 'complete':
-                $orderstatus = Mage_Sales_Model_Order::STATE_COMPLETE;
+                $orderstate = Mage_Sales_Model_Order::STATE_COMPLETE;
                 break;
             case 'closed':
-                $orderstatus = Mage_Sales_Model_Order::STATE_CLOSED;
+                $orderstate = Mage_Sales_Model_Order::STATE_CLOSED;
                 break;
             case 'holded':
-                $orderstatus = Mage_Sales_Model_Order::STATE_HOLDED;
+                $orderstate = Mage_Sales_Model_Order::STATE_HOLDED;
                 break;
             case 'payment_review':
-                $orderstatus = Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW;
+                $orderstate = Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW;
                 break;
             case 'cancel':
             case 'canceled':
             case 'cancelled':
-                $orderstatus = Mage_Sales_Model_Order::STATE_CANCELED;
+                $orderstate = Mage_Sales_Model_Order::STATE_CANCELED;
                 break;
             case 'processing':
+                $orderstate = Mage_Sales_Model_Order::STATE_PROCESSING;
+                break;
             default:
-                $orderstatus = Mage_Sales_Model_Order::STATE_PROCESSING;
+                echo "\nState not found.";
+                return false;
         }
+
+        $allowedStatus = array(
+            'canceled',
+            'cancel_ogone',
+            'closed',
+            'complete',
+            'decline_ogone',
+            'fraud',
+            'fulfillment',
+            'holded',
+            'payment_review',
+            'paypal_canceled_reversal',
+            'paypal_reversed',
+            'pending',
+            'pending_ogone',
+            'pending_payment',
+            'pending_paypal',
+            'processed_ogone',
+            'processing',
+            'processing_ogone',
+            'ready_to_collect',
+            'waiting_authorozation'
+        );
+
+        if(!$_orderStatus || !in_array($_orderStatus, $allowedStatus)){
+            $_orderStatus = $orderstate;
+        }
+
         foreach($orders as $orderId){
             echo "\nchanging order status for: {$orderId}";
             $order = Mage::getModel("sales/order")->loadByIncrementId($orderId);
@@ -58,19 +90,39 @@ class DSE_Shell_Orderstatus extends Mage_Shell_Abstract
                     echo "\norder not found!\n";
                     continue;
                 }
-                $order->setData('state', $orderstatus);
-                $order->setStatus($orderstatus);
-                $history = $order->addStatusHistoryComment('Changed order status to ' . $orderstatus . ' manually.', $orderstatus);
+                $order->setData('state', $orderstate);
+                $order->setData('status', $_orderStatus);
+                //$order->setStatus($_orderStatus);
+                $history = $order->addStatusHistoryComment('Changed order state to ' . $orderstate . ' and status to ' . $_orderStatus . ' manually.', $_orderStatus);
                 $history->setIsCustomerNotified(false);
                 $order->save();
             }catch (Exception $e){
                 // -- do something
+                echo "\n" . $e->getMessage() . "\n";
             }
         }
         echo "\nDone!!!\n";
         return true;
     }
+
+    /**
+     * Retrieve Usage Help Message
+     *
+     */
+    public function usageHelp()
+    {
+        return <<<USAGE
+Usage:  php orderstatus.php --state processing --status ready_to_collect --orders e1000001,e1000002,e1000003
+
+ status is optional
+
+  -h            Short alias for help
+  help          This help
+USAGE;
+    }
 }
 
 $shell = new DSE_Shell_Orderstatus();
 $shell->run();
+
+echo "\n";
