@@ -112,7 +112,10 @@ class DSE_Shell_Orderstatus extends Mage_Shell_Abstract
     public function usageHelp()
     {
         return <<<USAGE
-Usage:  php orderstatus.php --state processing --status ready_to_collect --orders e1000001,e1000002,e1000003
+Usage:  
+
+php orderstatus.php --state processing --status ready_to_collect --orders e100486224,e100486223,e100486222
+php orderstatus.php --state complete --orders 145000115
 
  status is optional
 
