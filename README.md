@@ -15,8 +15,8 @@ Go to shell folder location and run:
 
 #Magento custom shell scripts:
 1. Unable to delete Magento products? ([solution](quoteFixer.md))
-2. [Cleanup log tables](tclean.md)
-3. [Change order status programatically](orderstatus.md)
+2. How to delete old magento log table entries? ([solution](tclean.md))
+3. How to change magento order status programmatically? ([solution](orderstatus.md))
 4. Add all products to new and existing websites. ([view script](shell/product-to-new-website.php))
 
 ##attributegroup.php
