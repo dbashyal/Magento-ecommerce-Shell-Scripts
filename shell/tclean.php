@@ -1,7 +1,14 @@
 <?php
-/*
- * @author dbashyal dltr.org
+/**
+ *
+ * Copyright (c) 2017.
+ * tclean.php
+ * Code compiled by: @dbashyal 'damu' on 24/10/17 4:23 PM
+ * Visit http://dltr.org for Magento Tips and Tricks
+ *
  */
+
+
 require_once 'abstract.php';
 
 /**

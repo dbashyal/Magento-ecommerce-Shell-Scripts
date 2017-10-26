@@ -1,9 +1,13 @@
 <?php
-/*
- * author: Damodar Bashyal (@dbashyal)
- * url: http://dltr.org (magento tips and tricks)
- * 
- * */
+/**
+ *
+ * Copyright (c) 2017.
+ * quoteFixer.php
+ * Code compiled by: @dbashyal 'damu' on 24/10/17 4:23 PM
+ * Visit http://dltr.org for Magento Tips and Tricks
+ *
+ */
+
 require_once 'abstract.php';
 class Quote_Fixer extends Mage_Shell_Abstract
 {

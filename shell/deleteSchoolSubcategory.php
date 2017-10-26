@@ -1,4 +1,12 @@
 <?php
+/**
+ *
+ * Copyright (c) 2017.
+ * deleteSchoolSubcategory.php
+ * Code compiled by: @dbashyal 'damu' on 23/10/17 10:07 AM
+ * Visit http://dltr.org for Magento Tips and Tricks
+ *
+ */
 
 require_once "../app/Mage.php";
 require_once 'abstract.php';

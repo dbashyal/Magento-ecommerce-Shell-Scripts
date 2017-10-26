@@ -1,13 +1,13 @@
 <?php
 /**
  * Suspend users who are inactive for more than 10 months
- *
- * @category       w3tut
- * @copyright      Copyright (c) 2012 w3tut.org
- * @author         Damodar Bashyal | w3tut.org/contact
- * @license        http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * Copyright (c) 2017.
+ * suspendCustomers.php
+ * Code compiled by: @dbashyal 'damu' on 24/10/17 4:23 PM
+ * Visit http://dltr.org for Magento Tips and Tricks
  *
  */
+
 require_once '../shell/abstract.php';
 
 class Mage_Shell_suspendCustomers extends Mage_Shell_Abstract

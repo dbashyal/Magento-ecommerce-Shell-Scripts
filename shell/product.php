@@ -1,4 +1,13 @@
 <?php
+/**
+ *
+ * Copyright (c) 2017.
+ * product.php
+ * Code compiled by: @dbashyal 'damu' on 24/10/17 4:23 PM
+ * Visit http://dltr.org for Magento Tips and Tricks
+ *
+ */
+
 // it will fix duplicate url_paths for products
 require_once('../app/Mage.php');
 Mage::app('admin');

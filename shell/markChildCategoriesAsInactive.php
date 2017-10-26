@@ -1,4 +1,13 @@
 <?php
+/**
+ *
+ * Copyright (c) 2017.
+ * markChildCategoriesAsInactive.php
+ * Code compiled by: @dbashyal 'damu' on 4/10/17 10:41 AM
+ * Visit http://dltr.org for Magento Tips and Tricks
+ *
+ */
+
 PHP_SAPI == 'cli' or die('<h1>:P</h1>');
 ini_set('memory_limit','2048M');
 set_time_limit(0);

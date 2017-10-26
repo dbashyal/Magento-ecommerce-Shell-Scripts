@@ -1,9 +1,13 @@
 <?php
-/*
- * author : Damodar Bashyal
- * url: http://twitter.com/dbashyal
- * usage: php moveordertoanotheruser.php
+/**
+ *
+ * Copyright (c) 2017.
+ * moveordertoanotheruser.php
+ * Code compiled by: @dbashyal 'damu' on 24/10/17 4:23 PM
+ * Visit http://dltr.org for Magento Tips and Tricks
+ *
  */
+
 require_once 'abstract.php';
 
 class Technooze_Shell_Move_Order_To_Different_Customer extends Mage_Shell_Abstract

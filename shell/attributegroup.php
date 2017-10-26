@@ -1,10 +1,14 @@
 <?php
-/*
- * file: /shell/attributegroup.php
- * code compiled by: @dbashyal 'damu'
- * href: http://dltr.org/ 'magento tips and tricks'
- * ref: Mage_Adminhtml_Catalog_Product_AttributeController::saveAction
+
+/**
+ *
+ * Copyright (c) 2017.
+ * attributegroup.php
+ * Code compiled by: @dbashyal 'damu' on 24/10/17 4:23 PM
+ * Visit http://dltr.org for Magento Tips and Tricks
+ *
  */
+
 //enable errors to see if something is wrong
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 1);

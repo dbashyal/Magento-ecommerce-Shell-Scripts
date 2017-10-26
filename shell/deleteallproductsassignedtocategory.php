@@ -1,4 +1,14 @@
 <?php
+
+/**
+ *
+ * Copyright (c) 2017.
+ * deleteallproductsassignedtocategory.php
+ * Code compiled by: @dbashyal 'damu' on 24/10/17 4:20 PM
+ * Visit http://dltr.org for Magento Tips and Tricks
+ *
+ */
+
 /*
  * WARNING: This will actually delete products.
  **/

@@ -1,6 +1,14 @@
 <?php
+/**
+ *
+ * Copyright (c) 2017.
+ * product-to-new-website.php
+ * Code compiled by: @dbashyal 'damu' on 18/09/17 2:01 PM
+ * Visit http://dltr.org for Magento Tips and Tricks
+ *
+ */
 
-require_once 'abstract.php';
+require_once '../abstract.php';
 class Mage_Shell_Lowes_ProductToNewWebsite extends Mage_Shell_Abstract
 {
     public function run()
@@ -20,4 +28,4 @@ try{
     echo $e->__toString();
 }
 
-echo "Done!\n Now run: `php -f indexer.php reindexall`";
+echo "done!\n";

@@ -1,7 +1,15 @@
 <?php
+/**
+ *
+ * Copyright (c) 2017.
+ * sortCategoriesByName.php
+ * Code compiled by: @dbashyal 'damu' on 25/10/17 4:36 PM
+ * Visit http://dltr.org for Magento Tips and Tricks
+ *
+ */
 
-require_once "../app/Mage.php";
-require_once 'abstract.php';
+require_once "../../app/Mage.php";
+require_once '../abstract.php';
 Mage::app('admin')->setUseSessionInUrl(false);
 Mage::app()->setCurrentStore(Mage::getModel('core/store')->load(Mage_Core_Model_App::ADMIN_STORE_ID));
 

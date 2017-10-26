@@ -1,4 +1,13 @@
 <?php
+/**
+ *
+ * Copyright (c) 2017.
+ * repair-images.php
+ * Code compiled by: @dbashyal 'damu' on 24/10/17 4:23 PM
+ * Visit http://dltr.org for Magento Tips and Tricks
+ *
+ */
+
 //die('The purpose of this file is achieved.');
 require_once '../app/Mage.php';
 Mage::app('admin');

@@ -1,9 +1,13 @@
 <?php
-/*
- * @author: damodar bashyal (@dbashyal)
- * Converts quotes into order.
- * Requires other files.
+/**
+ *
+ * Copyright (c) 2017.
+ * quote-to-order.php
+ * Code compiled by: @dbashyal 'damu' on 24/10/17 4:23 PM
+ * Visit http://dltr.org for Magento Tips and Tricks
+ *
  */
+
 require_once 'abstract.php';
 require_once 'utility.php';
 

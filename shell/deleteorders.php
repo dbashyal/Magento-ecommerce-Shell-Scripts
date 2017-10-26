@@ -1,4 +1,12 @@
 <?php
+/**
+ *
+ * Copyright (c) 2017.
+ * deleteorders.php
+ * Code compiled by: @dbashyal 'damu' on 24/10/17 4:20 PM
+ * Visit http://dltr.org for Magento Tips and Tricks
+ *
+ */
 
 require_once "../app/Mage.php";
 Mage::app('admin')->setUseSessionInUrl(false);
