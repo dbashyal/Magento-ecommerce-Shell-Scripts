@@ -9,13 +9,17 @@
  *
  */
 
-require_once dirname(dirname(dirname(__FILE__))) . '/app/Mage.php';
-require_once '../abstract.php';
+if(!defined('DS')){
+    // include, only if this file is run standalone.
+    require_once dirname(dirname(dirname(__FILE__))) . '/app/Mage.php';
+    require_once dirname(dirname(__FILE__)) . '/abstract.php';
+}
 
 Mage::setIsDeveloperMode(true);
 ini_set('display_errors', 1);
 umask(0);
 Mage::app('admin')->setUseSessionInUrl(false);
+Mage::unregister('isSecureArea');
 Mage::register('isSecureArea', 1);
 
 class Mage_Shell_Lowes_FixColorNames extends Mage_Shell_Abstract
@@ -46,8 +50,9 @@ class Mage_Shell_Lowes_FixColorNames extends Mage_Shell_Abstract
         /** @var $option Mage_Eav_Model_Entity_Attribute_Option */
         foreach ($optionsCollection as $option) {
             $value = $option->getValue();
-            $cleanValue = Mage::helper('lowes_configurableswatches')->getCleanOptionLabel($value);
             $optionId = $option->getId();
+            $cleanValue = Mage::helper('lowes_configurableswatches')->getCleanOptionLabel($value);
+            $hasValidColorCode = Mage::helper('lowes_configurableswatches')->hasValidColorCode($value, $optionId);
             $option->setSortOrder(0);
             $option->save();
 
